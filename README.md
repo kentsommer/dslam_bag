@@ -15,5 +15,5 @@ Quickly and easily ROSBAG incoming DSLAM image and /odom feeds.
     * -r : read from filesystem instead of DSLAM board
 
 * To run:
-    * ./dslam_image_capture_bag.py -optional_args
+    * ./dslam_image_capture_bag.py
     
