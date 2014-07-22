@@ -38,7 +38,7 @@ options = parser.parse_args()
 # Cells
 ##############################################################################
 
-if not options.read:
+if not options.read and (options.frontcam or options.backcam):
     image_sourceBack = image_bridge.DSlamSource('image_source', ip='192.168.1.4', port=5555)
     image_sourceFront = image_bridge.DSlamSource('image_source', ip='192.168.1.3', port=5555)
     #bit_bucketBack = vision_utils.BitBucket('bit_bucket', verbose=False)
@@ -208,8 +208,8 @@ if not options.read and not options.bag and not options.fps:
             image_sourceBack['left']  >> imshow_leftBack['image'],
             image_sourceBack['right'] >> imshow_rightBack['image'],
          ]
-
-
+    else:
+        sys.exit("\n Dude select something, you have to either read from file system or select a combination of cameras: -front, -back, or -r are all options \n ...pick one! Oh and then re-run me \n")
 
 plasm = ecto.Plasm()
 plasm.connect(graph)
