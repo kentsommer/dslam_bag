@@ -2,7 +2,7 @@
 
 import argparse
 import dslam_ecto_bridge.dslam_image_bridge as image_bridge
-import dslam_ecto_vision.dslam_vision_utils as vision_utils
+import dslam_bag.dslam_bag_vision_utils as vision_utils
 #import dslam_ecto_bridge.beachhead as beachhead
 import ecto
 from ecto.opts import scheduler_options, run_plasm

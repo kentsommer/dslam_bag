@@ -123,4 +123,4 @@ public:
 // second argument: the cell we want to expose in the module
 // third argument: the name of that cell as seen in Python
 // fourth argument: a description of what that cell does
-ECTO_CELL(dslam_vision_utils, dslam_ecto_vision::Mat2ImageStamped, "Mat2ImageStamped", "Stamps the incoming message.");
+ECTO_CELL(dslam_bag_vision_utils, dslam_ecto_vision::Mat2ImageStamped, "Mat2ImageStamped", "Stamps the incoming message.");
