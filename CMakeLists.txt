@@ -6,6 +6,7 @@ project(dslam_bag)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   dslam_ecto_vision
+  dslam_ecto_bridge
   ecto
   ecto_opencv
   ecto_ros

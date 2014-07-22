@@ -8,7 +8,6 @@ import ecto
 from ecto.opts import scheduler_options, run_plasm
 from ecto_opencv.highgui import imshow, FPSDrawer, ImageSaver, ImageReader
 import ecto_ros, ecto_ros.ecto_sensor_msgs as ecto_sensor_msgs
-from ecto_ros import Mat2Image
 import os
 import rospy
 import sys
@@ -40,8 +39,8 @@ options = parser.parse_args()
 ##############################################################################
 
 if not options.read:
-    image_source4 = image_bridge.ImageClient('image_source', ip='192.168.1.4', port=5555)
-    image_source3 = image_bridge.ImageClient('image_source', ip='192.168.1.3', port=5555)
+    image_source4 = image_bridge.DSlamSource('image_source', ip='192.168.1.4', port=5555)
+    image_source3 = image_bridge.DSlamSource('image_source', ip='192.168.1.3', port=5555)
     bit_bucket4 = vision_utils.BitBucket('bit_bucket', verbose=False)
     bit_bucket3 = vision_utils.BitBucket('bit_bucket', verbose=False)
 if options.fps:
@@ -63,6 +62,7 @@ if options.average:
     right_image_filename = os.path.join(options.output_dir, 'snapshots', 'right', 'image_%04d.bmp')
     save_image_left = ecto.If('save_image_left', cell=ImageSaver('save_image_left', filename_format=left_image_filename, start=1))
     save_image_right = ecto.If('save_image_right', cell=ImageSaver('save_image_right', filename_format=right_image_filename, start=1))
+
 
 # Raw image display
 imshow_left4 = imshow('show_raw_left', name='raw_left4')
@@ -88,11 +88,10 @@ if options.read:
     load_right = ImageReader(path=options.output_dir, match="^.*right.*\\.bmp$", loop=False)
 
 # Converters
-mat2ImgMsgLeft4 = Mat2Image()
-mat2ImgMsgRight4 = Mat2Image()
-mat2ImgMsgLeft3 = Mat2Image()
-mat2ImgMsgRight3 = Mat2Image()
-
+mat2ImgMsgLeft4 = vision_utils.Mat2ImageStamped()
+mat2ImgMsgRight4 = vision_utils.Mat2ImageStamped()
+mat2ImgMsgLeft3 = vision_utils.Mat2ImageStamped()
+mat2ImgMsgRight3 = vision_utils.Mat2ImageStamped()
 # Publisher
 ImagePub = ecto_sensor_msgs.Publisher_Image
 pub_imageLeft3 = ImagePub("image_publisher", topic_name='/image_left3')
@@ -175,16 +174,17 @@ if options.bag:
     if options.ip4:
         graph += [
             image_source4['left'] >> mat2ImgMsgLeft4['image'],
-            image_source4['right'] >> mat2ImgMsgRight4['image'],
+            image_source4['time'] >> mat2ImgMsgLeft4['time'],
+            image_source4['right'] >> mat2ImgMsgLeft4['image'],
+            image_source4['time'] >> mat2ImgMsgLeft4['time'], 
             mat2ImgMsgLeft4['image']  >> pub_imageLeft4['input'],
             mat2ImgMsgRight4['image'] >> pub_imageRight4['input'],
         ]
     if options.ip3:
         graph += [
-            image_source3['left'] >> mat2ImgMsgLeft3['image'],
-            image_source3['right'] >> mat2ImgMsgRight3['image'],
-            mat2ImgMsgLeft3['image']  >> pub_imageLeft3['input'],
-            mat2ImgMsgRight3['image'] >> pub_imageRight3['input'],
+            image_source3['pair'] >> convert3['pair'],
+            convert3['left']  >> pub_imageLeft3['input'],
+            convert3['right'] >> pub_imageRight3['input'],
         ]
     subprocess.Popen("rosbag record -q /odom /image_left3 /image_right3 /image_left4 /image_right4 /tf", shell=True)
 if not options.read and not options.bag and not options.fps:
