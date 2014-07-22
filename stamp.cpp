@@ -1,8 +1,8 @@
 /**
- * @file /dslam_ecto_vision/src/bit_bucket.cpp
+ * @file /dslam_ecto_vision/src/stamp.cpp
  * 
- * Simple cell for debugging - it has a tendril that can be hooked up
- * to listen to counters.
+ * Takes in a CV::Mat and outputs a stamped sensor_msgs/Image msg. 
+ * 
  **/
 /*****************************************************************************
  ** Includes
