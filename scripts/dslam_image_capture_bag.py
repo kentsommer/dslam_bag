@@ -41,8 +41,8 @@ options = parser.parse_args()
 if not options.read:
     image_source4 = image_bridge.DSlamSource('image_source', ip='192.168.1.4', port=5555)
     image_source3 = image_bridge.DSlamSource('image_source', ip='192.168.1.3', port=5555)
-    bit_bucket4 = vision_utils.BitBucket('bit_bucket', verbose=False)
-    bit_bucket3 = vision_utils.BitBucket('bit_bucket', verbose=False)
+    #bit_bucket4 = vision_utils.BitBucket('bit_bucket', verbose=False)
+    #bit_bucket3 = vision_utils.BitBucket('bit_bucket', verbose=False)
 if options.fps:
     if options.ip3:
         fps_left3 = FPSDrawer()
@@ -190,13 +190,13 @@ if options.bag:
 if not options.read and not options.bag and not options.fps:
     if options.ip3:
         graph += [
-            image_source3['counter'] >> bit_bucket3['counter'],
+            #image_source3['counter'] >> bit_bucket3['counter'],
             image_source3['left']  >> imshow_left3['image'],
             image_source3['right'] >> imshow_right3['image'],
         ]
     if options.ip4:
         graph += [
-            image_source4['counter'] >> bit_bucket4['counter'],
+            #image_source4['counter'] >> bit_bucket4['counter'],
             image_source4['left']  >> imshow_left4['image'],
             image_source4['right'] >> imshow_right4['image'],
          ]
