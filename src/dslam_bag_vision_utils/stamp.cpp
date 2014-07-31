@@ -44,9 +44,15 @@ public:
     switch(mat.type())
     {
       case CV_8U:
+      {
         ros_image.encoding = enc::MONO8;
+        break;
+      }
       default:
+      {
         ros_image.encoding = enc::RGB8;
+        break;
+      }
     } 
     ros_image.is_bigendian = false;
     ros_image.step = mat.step;
