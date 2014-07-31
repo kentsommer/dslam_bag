@@ -7,6 +7,7 @@ d = generate_distutils_setup()
 
 d['packages'] = ['dslam_bag']
 d['package_dir'] = {'': 'python'}
+d['scripts'] = ['scripts/dslam_bag']
  
 setup(**d)
 
