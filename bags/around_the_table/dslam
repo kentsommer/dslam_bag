@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rosrun dslam_ecto_bridge dslam --back "$@"
+

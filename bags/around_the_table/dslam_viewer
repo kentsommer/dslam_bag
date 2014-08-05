@@ -1,0 +1,7 @@
+#!/bin/bash
+
+rosrun dslam_ecto_bridge dslam --back "$@"
+
+stereo_parameters=`rospack find dslam_bag`/bags/around_the_table/stereo_parameters_back.yaml
+
+rosrun dslam_slam_desktop dslam_viewer ${stereo_parameters}

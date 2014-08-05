@@ -1,3 +1,3 @@
 
-This is a bag with just the board camera only.
+This is a bag with just the back board camera only.
 
