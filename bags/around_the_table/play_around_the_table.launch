@@ -1,0 +1,13 @@
+<launch>
+  <!-- Bags are at http://files.yujin.com/control/dslam/bags/ -->
+  <arg name="use_rqt_bag" default="false"/>
+  <arg name="bag_rate" default="$(optenv DSLAM_BAG_RATE 1)"/>
+
+  <include file="$(find dslam_bag)/launch/play_dual.launch">
+    <arg name="bag_rate" value="$(arg bag_rate)"/>
+    <arg name="use_rqt_bag" value="$(arg use_rqt_bag)"/>
+    <arg name="bag_file" value="$(find dslam_bag)/bags/around_the_table/around_the_table.bag" />
+    <arg name="stereo_parameters_file_front" value="$(find dslam_bag)/bags/around_the_table/stereo_parameters_front.yaml" />
+    <arg name="stereo_parameters_file_back" value="$(find dslam_bag)/bags/around_the_table/stereo_parameters_back.yaml" />
+  </include>
+</launch>

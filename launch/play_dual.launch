@@ -1,0 +1,31 @@
+<launch>
+  <!-- Bags are at http://files.yujin.com/control/dslam/bags/ -->
+  <arg name="use_rqt_bag" default="false"/>
+  <arg name="bag_file"  default="$(optenv DSLAM_BAG_FILE unknown.bag)"/>
+  <arg name="bag_rate" default="$(optenv DSLAM_BAG_RATE 1)"/>
+  <arg name="stereo_parameters_file_front" default="$(optenv DSLAM_STEREO_PARAMETERS_FILE_FRONT stereo_parameters_front.yaml)"/>
+  <arg name="stereo_parameters_file_back"  default="$(optenv DSLAM_STEREO_PARAMETERS_FILE_BACK stereo_parameters_back.yaml)"/>
+
+  <!-- Until we have the bag itself playing these files -->
+  <group ns="dslam/camera/front/stereo_parameters">
+    <rosparam command="load" file="$(arg stereo_parameters_file_front)" />
+  </group>
+  <group ns="dslam/camera/back/stereo_parameters">
+    <rosparam command="load" file="$(arg stereo_parameters_file_back)" />
+  </group>
+  <!--  Other options:
+         (dash)(dash)quiet : suppress rosconsole output
+         (dash)(dash)loop : keep looping the bag file
+         (dash)(dash)keep-alive
+         (dash)(dash)clock 
+         (dash)(dash)pause : start in paused mode
+  -->
+  <group if="$(arg use_rqt_bag)">
+    <node pkg="rqt_bag" type="rqt_bag" name="rqt_bag" args="$(arg bag_file)"/>
+  </group>
+  <group unless="$(arg use_rqt_bag)">
+    <node pkg="rosbag" type="play" name="rosbag"
+        args="--rate=$(arg bag_rate) --clock --loop --pause --quiet $(arg bag_file)"/>
+  </group>      
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find dslam_bag)/rviz/dslam.rviz"/>
+</launch>

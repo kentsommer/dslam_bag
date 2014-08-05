@@ -1,0 +1,13 @@
+#!/bin/bash
+
+source ../bags.bashrc
+if [ ! -f around_the_table.bag ]; then
+  wget ${DSLAM_BAG_FILE_REPO}/around_the_table.bag
+fi
+if [ ! -h stereo_parameters_front.yaml ]; then
+  ln -s ../../parameters/stereo_parameters_3.yaml ./stereo_parameters_front.yaml
+fi
+if [ ! -h stereo_parameters_back.yaml ]; then
+  ln -s ../../parameters/stereo_parameters_4.yaml ./stereo_parameters_back.yaml
+fi
+
