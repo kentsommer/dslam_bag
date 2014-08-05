@@ -1,0 +1,2 @@
+#!/bin/bash
+rosrun dslam_camera_desktop rotation_reprojections "$@"

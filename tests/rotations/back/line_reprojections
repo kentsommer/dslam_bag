@@ -1,0 +1,3 @@
+#!/bin/bash
+rosrun dslam_camera_desktop stereo_line_reprojections left_00.bmp right_00.bmp
+

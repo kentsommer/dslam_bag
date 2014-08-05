@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [ ! -h stereo_parameters_back.yaml ]; then
+  ln -s ../../../parameters/stereo_parameters_3.yaml ./stereo_parameters.yaml
+fi
+
