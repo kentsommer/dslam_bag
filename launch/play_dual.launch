@@ -27,5 +27,5 @@
     <node pkg="rosbag" type="play" name="rosbag"
         args="--rate=$(arg bag_rate) --clock --loop --pause --quiet $(arg bag_file)"/>
   </group>      
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find dslam_bag)/rviz/dslam.rviz"/>
+  <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find dslam_bag)/rviz/dslam.rviz"/>-->
 </launch>
