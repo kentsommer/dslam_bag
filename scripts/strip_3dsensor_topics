@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+
+import argparse
+from rosbag import Bag
+
+parser = argparse.ArgumentParser(description='DSlam')
+parser.add_argument('bags', nargs=2)
+
+options = parser.parse_args()
+
+from_bag = options.bags[0]
+to_bag = options.bags[1]
+
+strip_these_topics = ['/camera/depth/points', '/camera/rgb/image_raw' ]  # strip rgb as well
+
+with Bag(to_bag, 'w') as bag:
+    for topic, msg, t in Bag(from_bag):
+        if topic not in strip_these_topics:
+            bag.write(topic, msg, t)
+            
