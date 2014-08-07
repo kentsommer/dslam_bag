@@ -27,6 +27,7 @@ parser = argparse.ArgumentParser(description='Testies.')
 parser.add_argument('-front', '--frontcam', default=False, action='store_true', help='Use front camera')
 parser.add_argument('-back', '--backcam', default=False, action='store_true', help='Use back camera')
 parser.add_argument('-v', '--viz', default=False, action='store_true', help='show the plasm graphs')
+parser.add_argument('-s', '--show', default=False, action='store_true', help='Show Image Feeds')
 #myargs = rospy.myargv(argv=sys.argv)
 
 options = parser.parse_args()
@@ -51,10 +52,10 @@ mat2ImgMsgLeftFront = vision_utils.Mat2ImageStamped()
 mat2ImgMsgRightFront = vision_utils.Mat2ImageStamped()
 # Publisher
 ImagePub = ecto_sensor_msgs.Publisher_Image
-pub_imageLeftFront = ImagePub("image_publisher", topic_name='/image/front/left')
-pub_imageRightFront = ImagePub("image_publisher", topic_name='/image/front/right')
-pub_imageLeftBack = ImagePub("image_publisher", topic_name='/image/back/left')
-pub_imageRightBack = ImagePub("image_publisher", topic_name='/image/back/right')
+pub_imageLeftFront = ImagePub("image_publisher", topic_name='/dslam/camera/front/left/image_raw')
+pub_imageRightFront = ImagePub("image_publisher", topic_name='/dslam/camera/front/right/image_raw')
+pub_imageLeftBack = ImagePub("image_publisher", topic_name='/dslam/camera/back/left/image_raw')
+pub_imageRightBack = ImagePub("image_publisher", topic_name='/dlsam/camera/back/right/image_raw')
 
 ##############################################################################
 # Graph
@@ -69,9 +70,14 @@ if options.backcam:
         image_sourceBack['time']      >> mat2ImgMsgRightBack['time'],    # noqa @IgnorePep8
         mat2ImgMsgLeftBack['image']   >> pub_imageLeftBack['input'],     # noqa @IgnorePep8
         mat2ImgMsgRightBack['image']  >> pub_imageRightBack['input'],    # noqa @IgnorePep8
-        image_sourceBack['left']      >> imshow_leftBack['image'],      # noqa @IgnorePep8
-        image_sourceBack['right']     >> imshow_rightBack['image'],     # noqa @IgnorePep8
+        #image_sourceBack['left']      >> imshow_leftBack['image'],      # noqa @IgnorePep8
+        #image_sourceBack['right']     >> imshow_rightBack['image'],     # noqa @IgnorePep8
     ]
+    if options.show:
+	graph += [
+	    image_sourceBack['left']      >> imshow_leftBack['image'],
+	    image_sourceBack['right']     >> imshow_rightBack['image'],
+	]
 if options.frontcam:
     graph += [
         image_sourceFront['left']     >> mat2ImgMsgLeftFront['image'],   # noqa @IgnorePep8
@@ -80,15 +86,20 @@ if options.frontcam:
         image_sourceFront['time']     >> mat2ImgMsgRightFront['time'],   # noqa @IgnorePep8
         mat2ImgMsgLeftFront['image']  >> pub_imageLeftFront['input'],    # noqa @IgnorePep8
         mat2ImgMsgRightFront['image'] >> pub_imageRightFront['input'],   # noqa @IgnorePep8
-        image_sourceFront['left']     >> imshow_leftFront['image'],      # noqa @IgnorePep8
-        image_sourceFront['right']    >> imshow_rightFront['image'],     # noqa @IgnorePep8
+        #image_sourceFront['left']     >> imshow_leftFront['image'],      # noqa @IgnorePep8
+        #image_sourceFront['right']    >> imshow_rightFront['image'],     # noqa @IgnorePep8
     ]
+    if options.show:
+	graph += [
+	    image_sourceFront['left']     >> imshow_leftFront['image'],
+	    image_sourceFront['right']    >> imshow_rightFront['image'],
+	]
 if options.frontcam and not options.backcam:
-    subprocess.Popen("rosbag record -q /odom /image/front/left /image/front/right /tf /output /camera/depth/points /", shell=True)
+    subprocess.Popen("rosbag record -q /odom /dslam/camera/front/left/image_raw /dslam/camera/front/right/image_raw /tf /output /camera/depth/points", shell=True)
 if options.backcam and not options.frontcam:
-    subprocess.Popen("rosbag record -q /odom /image/back/left /image/back/right /tf /output /camera/depth/points", shell=True)
+    subprocess.Popen("rosbag record -q /odom /dslam/camera/back/left/image_raw /dslam/camera/back/right/image_raw /tf /output /camera/depth/points", shell=True)
 if options.frontcam and options.backcam:
-    subprocess.Popen("rosbag record -q /odom /image/front/left /image/front/right /image/back/left /image/back/right /tf /output /camera/depth/points", shell=True)
+    subprocess.Popen("rosbag record -q /odom /dslam/camera/front/left/image_raw /dslam/camera/front/right/image_raw /dslam/camera/back/left/image_raw /dslam/camera/back/right/image_raw /tf /output /camera/depth/points", shell=True)
 
 if not options.backcam and not options.frontcam:
     sys.exit("\n Dude select something as an input -> specifically a combination of cameras: --front and --back are options \n ...pick one! Oh and then re-run me \n")
@@ -131,8 +142,9 @@ if options.viz:
     ecto.view_plasm(plasm)
 
 # lay down a imshow receiver in the main thread for parallel imshows to hook onto
-dslam_ecto_vision.opencv_init()
+if options.show:
+    dslam_ecto_vision.opencv_init()
 
-scheduler_threads = dslam_ecto_utils.SchedulerThreads([scheduler_thread])
+scheduler_threads = dslam_ecto_utils.SchedulerThreads([scheduler_thread], disable_qt_management=not options.show)
 scheduler_threads.spin()
 print scheduler.stats()
