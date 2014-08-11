@@ -1,5 +1,0 @@
-#!/bin/bash
-
-stereo_parameters=`rospack find dslam_bag`/bags/straight/stereo_parameters_front.yaml
-
-rosrun dslam_slam_desktop dslam_viewer ${stereo_parameters}

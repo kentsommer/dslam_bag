@@ -1,8 +1,8 @@
 #!/bin/bash
 
 source ../bags.bashrc
-if [ ! -f straight.bag ]; then
-  wget ${DSLAM_BAG_FILE_REPO}/straight.bag
+if [ ! -f back_and_forth.bag ]; then
+  wget ${DSLAM_BAG_FILE_REPO}/back_and_forth.bag
 fi
 if [ ! -h stereo_parameters_front.yaml ]; then
   ln -s ../../parameters/stereo_parameters_3.yaml ./stereo_parameters_front.yaml

@@ -84,4 +84,5 @@ Tc:
    cols: 1
    dt: d
    # turtle gopher height is 0.955 but we set it to zero since it creates a bug (for now)
-   data: [ 0.0806,0.05,0,0,0,3.14159265359]
+   #data: [ 0.0806,0.05,0,0,0,3.14159265359]
+   data: [ 0.0806,0.05,0,0.0349,0,3.14159265359]

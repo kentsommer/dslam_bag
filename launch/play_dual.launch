@@ -2,6 +2,7 @@
   <!-- Bags are at http://files.yujin.com/control/dslam/bags/ -->
   <arg name="use_rqt_bag" default="false"/>
   <arg name="use_rviz" default="false"/>
+  <arg name="no_dslam" default="false"/>
   <arg name="bag_file"  default="$(optenv DSLAM_BAG_FILE unknown.bag)"/>
   <arg name="bag_rate" default="$(optenv DSLAM_BAG_RATE 1)"/>
   <arg name="stereo_parameters_file_front" default="$(optenv DSLAM_STEREO_PARAMETERS_FILE_FRONT stereo_parameters_front.yaml)"/>
@@ -26,9 +27,12 @@
   </group>
   <group unless="$(arg use_rqt_bag)">
     <node pkg="rosbag" type="play" name="rosbag"
-        args="--rate=$(arg bag_rate) --clock --loop --pause --quiet $(arg bag_file)"/>
+        args="--rate=$(arg bag_rate) --clock --loop --pause $(arg bag_file)"/>
   </group>      
   <group if="$(arg use_rviz)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find dslam_bag)/rviz/dslam.rviz"/>
-  </group>      
+  </group>
+  <group unless="$(arg no_dslam)">
+    <node name="dslam" pkg="dslam_ecto_bridge" type="dslam" args="--front"/>
+  </group>
 </launch>
