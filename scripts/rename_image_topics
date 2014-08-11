@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+
+import argparse
+from rosbag import Bag
+
+parser = argparse.ArgumentParser(description='DSlam')
+parser.add_argument('bags', nargs=2)
+
+options = parser.parse_args()
+
+from_bag = options.bags[0]
+to_bag = options.bags[1]
+
+topics = {'/image/front/left': '/dslam/camera/front/left/image_raw', 
+          '/image/front/right': '/dslam/camera/front/right/image_raw',
+          '/image/back/left': '/dslam/camera/back/left/image_raw',
+          '/image/back/right': '/dslam/camera/back/right/image_raw'}
+
+with Bag(to_bag, 'w') as bag:
+
+    for from_topic, msg, t in Bag(from_bag):
+        to_topic = topics.get(from_topic)
+        if to_topic is not None:
+            bag.write(to_topic, msg, t)
+        else:
+            bag.write(from_topic, msg, t)
