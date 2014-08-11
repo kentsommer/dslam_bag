@@ -6,4 +6,4 @@ if [ $# -lt 1 ]; then
 fi
 
 bag_file=$1
-scp ${bag_file} files@192.168.10.233:shared/control/dslam/bags
+scp ${bag_file} snorri@192.168.10.123:shared/control/dslam/bags
