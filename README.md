@@ -1,9 +1,8 @@
-D(damn)SLAM with ROSBag support
-=========
+## D(damn)SLAM with ROSBag support
 
 Quickly and easily ROSBAG incoming DSLAM image and /odom feeds. 
 
-**Usage:**
+## Usage
 
 * Optional arguments:
     * -h : show help message
@@ -14,3 +13,7 @@ Quickly and easily ROSBAG incoming DSLAM image and /odom feeds.
 * To run:
     * ./dslam_image_capture_bag.py
     
+
+## Tips
+
+* Do not bag full point clouds, hard drives can't write (~120MB/s) at the same rate as the data (~290MB/s).
