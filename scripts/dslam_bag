@@ -52,10 +52,10 @@ mat2ImgMsgLeftFront = vision_utils.Mat2ImageStamped()
 mat2ImgMsgRightFront = vision_utils.Mat2ImageStamped()
 # Publisher
 ImagePub = ecto_sensor_msgs.Publisher_Image
-pub_imageLeftFront = ImagePub("image_publisher", topic_name='/dslam/camera/front/left/image_raw')
-pub_imageRightFront = ImagePub("image_publisher", topic_name='/dslam/camera/front/right/image_raw')
-pub_imageLeftBack = ImagePub("image_publisher", topic_name='/dslam/camera/back/left/image_raw')
-pub_imageRightBack = ImagePub("image_publisher", topic_name='/dlsam/camera/back/right/image_raw')
+pub_imageLeftFront = ImagePub("front_left_image_publisher", topic_name='/dslam/camera/front/left/image_raw')
+pub_imageRightFront = ImagePub("front_right_image_publisher", topic_name='/dslam/camera/front/right/image_raw')
+pub_imageLeftBack = ImagePub("back_left_image_publisher", topic_name='/dslam/camera/back/left/image_raw')
+pub_imageRightBack = ImagePub("back_right_image_publisher", topic_name='/dslam/camera/back/right/image_raw')
 
 ##############################################################################
 # Graph
