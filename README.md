@@ -17,3 +17,11 @@ Quickly and easily ROSBAG incoming DSLAM image and /odom feeds.
 ## Tips
 
 * Do not bag full point clouds, hard drives can't write (~120MB/s) at the same rate as the data (~290MB/s).
+
+## FAQ
+
+*Loopback Jumps*
+
+If dslam works well on a bag that returns the robot to its initial position, then because of drift, it might have odom value of (0.0, 0.25).
+When the odom is reset, then dslam will have thought the robot has gone from 0.25->0.0, i.e. 'jumped' by -0.25 and so will teleoport the
+robot appropriately.
