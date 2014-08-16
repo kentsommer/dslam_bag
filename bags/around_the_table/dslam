@@ -1,4 +1,4 @@
 #!/bin/bash
 
-rosrun dslam_ecto_bridge dslam --back "$@"
-#rosrun dslam_ecto_bridge dslam --front "$@"
+rosrun dslam_ecto_bridge dslam --front "$@"
+#rosrun dslam_ecto_bridge dslam --back "$@"
