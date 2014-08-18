@@ -73,11 +73,11 @@ if options.backcam:
         #image_sourceBack['left']      >> imshow_leftBack['image'],      # noqa @IgnorePep8
         #image_sourceBack['right']     >> imshow_rightBack['image'],     # noqa @IgnorePep8
     ]
-    if options.show:
-	graph += [
-	    image_sourceBack['left']      >> imshow_leftBack['image'],
-	    image_sourceBack['right']     >> imshow_rightBack['image'],
-	]
+if options.show:
+    graph += [
+    image_sourceBack['left']      >> imshow_leftBack['image'],           # noqa @IgnorePep8
+    image_sourceBack['right']     >> imshow_rightBack['image']           # noqa @IgnorePep8
+]
 if options.frontcam:
     graph += [
         image_sourceFront['left']     >> mat2ImgMsgLeftFront['image'],   # noqa @IgnorePep8
