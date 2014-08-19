@@ -1,5 +1,7 @@
 #!/bin/bash
 
-stereo_parameters=`rospack find dslam_bag`/bags/rotate/stereo_parameters_front.yaml
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+stereo_parameters=${DIR}/stereo_parameters_front.yaml
 
 rosrun dslam_slam_desktop dslam_viewer ${stereo_parameters}
