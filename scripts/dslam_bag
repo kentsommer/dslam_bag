@@ -28,6 +28,7 @@ parser.add_argument('-front', '--frontcam', default=False, action='store_true', 
 parser.add_argument('-back', '--backcam', default=False, action='store_true', help='Use back camera')
 parser.add_argument('-v', '--viz', default=False, action='store_true', help='show the plasm graphs')
 parser.add_argument('-s', '--show', default=False, action='store_true', help='Show Image Feeds')
+parser.add_argument('--verbose', default=False, action='store_true', help='Verbose command line output of image receipts')
 #myargs = rospy.myargv(argv=sys.argv)
 
 options = parser.parse_args()
@@ -37,8 +38,8 @@ options = parser.parse_args()
 ##############################################################################
 
 if options.frontcam or options.backcam:
-    image_sourceBack = image_bridge.DSlamSource('image_source', ip='192.168.1.4', port=5555)
-    image_sourceFront = image_bridge.DSlamSource('image_source', ip='192.168.1.3', port=5555)
+    image_sourceBack = image_bridge.DSlamSource('image_source', semantic_name="back_image_stream", verbose=options.verbose, ip='192.168.1.4', port=5555)
+    image_sourceFront = image_bridge.DSlamSource('image_source', semantic_name="front_image_stream", verbose=options.verbose, ip='192.168.1.3', port=5555)
 
 # Raw image display
 imshow_leftBack = imshow('show_raw_left', name='raw_leftBack')
@@ -46,10 +47,10 @@ imshow_rightBack = imshow('show_raw_right', name='raw_rightBack')
 imshow_leftFront = imshow('show_raw_left', name='raw_leftFront')
 imshow_rightFront = imshow('show_raw_right', name='raw_rightFront')
 # Converters
-mat2ImgMsgLeftBack = vision_utils.Mat2ImageStamped()
-mat2ImgMsgRightBack = vision_utils.Mat2ImageStamped()
-mat2ImgMsgLeftFront = vision_utils.Mat2ImageStamped()
-mat2ImgMsgRightFront = vision_utils.Mat2ImageStamped()
+mat2ImgMsgLeftBack = vision_utils.Mat2ImageStamped("mat2Img_leftBack")
+mat2ImgMsgRightBack = vision_utils.Mat2ImageStamped("mat2Img_rightBack")
+mat2ImgMsgLeftFront = vision_utils.Mat2ImageStamped("mat2Img_leftFront")
+mat2ImgMsgRightFront = vision_utils.Mat2ImageStamped("mat2Img_rightFront")
 # Publisher
 ImagePub = ecto_sensor_msgs.Publisher_Image
 pub_imageLeftFront = ImagePub("front_left_image_publisher", topic_name='/dslam/camera/front/left/image_raw')
@@ -89,11 +90,11 @@ if options.frontcam:
         #image_sourceFront['left']     >> imshow_leftFront['image'],      # noqa @IgnorePep8
         #image_sourceFront['right']    >> imshow_rightFront['image'],     # noqa @IgnorePep8
     ]
-    if options.show:
-	graph += [
-	    image_sourceFront['left']     >> imshow_leftFront['image'],
-	    image_sourceFront['right']    >> imshow_rightFront['image'],
-	]
+if options.show:
+    graph += [
+        image_sourceFront['left']     >> imshow_leftFront['image'],      # noqa @IgnorePep8
+        image_sourceFront['right']    >> imshow_rightFront['image'],     # noqa @IgnorePep8
+    ]
 if options.frontcam and not options.backcam:
     subprocess.Popen("rosbag record -q /odom /dslam/camera/front/left/image_raw /dslam/camera/front/right/image_raw /tf /output /camera/depth/points", shell=True)
 if options.backcam and not options.frontcam:
@@ -114,11 +115,11 @@ plasm.connect(graph)
 if options.frontcam or options.backcam:
     ecto_ros.init(sys.argv, "dslam_bag")
     try:
-	description = rospy.get_param("/robot_description")
-	with open('RobotDescription.xml', 'w') as file_:
-		file_.write(description) 
+        description = rospy.get_param("/robot_description")
+        with open('RobotDescription.xml', 'w') as file_:
+            file_.write(description)
     except KeyError:
-	print("Description not available")
+        print("Description not available")
 # if options.frontcam and options.backcam:
 #     ecto_ros.init(sys.argv, "dslam_ecto_bridge")
 # if options.frontcam and not options.backcam:
