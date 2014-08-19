@@ -45,6 +45,8 @@ install(DIRECTORY launch
 
 install(DIRECTORY bags
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+        PATTERN *.bag EXCLUDE
+        PATTERN *.yaml EXCLUDE
 )
 
 install(DIRECTORY rviz
