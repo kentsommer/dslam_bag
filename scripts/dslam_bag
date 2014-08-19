@@ -96,14 +96,14 @@ if options.show:
         image_sourceFront['right']    >> imshow_rightFront['image'],     # noqa @IgnorePep8
     ]
 if options.frontcam and not options.backcam:
-    subprocess.Popen("rosbag record -q /odom /dslam/camera/front/left/image_raw /dslam/camera/front/right/image_raw /tf /output /camera/depth/points", shell=True)
+    subprocess.Popen("rosbag record -q /odom /dslam/camera/front/left/image_raw /dslam/camera/front/right/image_raw /tf /output", shell=True)
 if options.backcam and not options.frontcam:
-    subprocess.Popen("rosbag record -q /odom /dslam/camera/back/left/image_raw /dslam/camera/back/right/image_raw /tf /output /camera/depth/points", shell=True)
+    subprocess.Popen("rosbag record -q /odom /dslam/camera/back/left/image_raw /dslam/camera/back/right/image_raw /tf /output", shell=True)
 if options.frontcam and options.backcam:
-    subprocess.Popen("rosbag record -q /odom /dslam/camera/front/left/image_raw /dslam/camera/front/right/image_raw /dslam/camera/back/left/image_raw /dslam/camera/back/right/image_raw /tf /output /camera/depth/points", shell=True)
+    subprocess.Popen("rosbag record -q /odom /dslam/camera/front/left/image_raw /dslam/camera/front/right/image_raw /dslam/camera/back/left/image_raw /dslam/camera/back/right/image_raw /tf /output", shell=True)
 
 if not options.backcam and not options.frontcam:
-    sys.exit("\n Dude select something as an input -> specifically a combination of cameras: --front and --back are options \n ...pick one! Oh and then re-run me \n")
+    sys.exit("\n Dude select something as an input -> specifically a combination of cameras: -front and -back are options \n ...pick one! Oh and then re-run me \n")
 
 plasm = ecto.Plasm()
 plasm.connect(graph)
