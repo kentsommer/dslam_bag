@@ -6,8 +6,8 @@ Quickly and easily ROSBAG incoming DSLAM image and /odom feeds.
 
 * Optional arguments:
     * -h : show help message
-    * -f : use the front camera pair (left, right). Can be used with or without -b
-    * -b : use the back camera pair (left, right). Can be used with or without -f
+    * -front : use the front camera pair (left, right). Can be used with or without -back
+    * -back : use the back camera pair (left, right). Can be used with or without -front
 
 * To run:
     * ./dslam_image_capture_bag.py
