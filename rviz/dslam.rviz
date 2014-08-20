@@ -6,10 +6,11 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /Grid1
         - /Image - Front Left1
         - /Image - Front Right1
-        - /TF1
         - /TF1/Frames1
+        - /Odometry1
         - /Image - Back Right1
       Splitter Ratio: 0.5
     Tree Height: 288
@@ -50,7 +51,7 @@ Visualization Manager:
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 10
+      Plane Cell Count: 50
       Reference Frame: <Fixed Frame>
       Value: true
     - Class: rviz/Image
@@ -109,7 +110,7 @@ Visualization Manager:
         map:
           Value: true
         odom:
-          Value: true
+          Value: false
         plate_bottom_link:
           Value: false
         plate_middle_link:
@@ -231,7 +232,7 @@ Visualization Manager:
       Class: rviz/Odometry
       Color: 255; 25; 0
       Enabled: true
-      Keep: 200
+      Keep: 1000
       Length: 0.2
       Name: Odometry
       Position Tolerance: 0.1
@@ -283,7 +284,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 18.0931
+      Distance: 46.2646
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -324,5 +325,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1680
-  X: 2006
-  Y: 24
+  X: 66
+  Y: 171

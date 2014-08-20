@@ -1,0 +1,13 @@
+#!/bin/bash
+
+source ../bags.bashrc
+if [ ! -f namsung.bag ]; then
+  wget ${DSLAM_BAG_FILE_REPO}/namsung.bag
+fi
+if [ ! -h stereo_parameters_front.yaml ]; then
+  ln -s ../../parameters/kents_turtle_tilted_front.yaml ./stereo_parameters_front.yaml
+fi
+if [ ! -h stereo_parameters_back.yaml ]; then
+  ln -s ../../parameters/kents_turtle_tilted_back.yaml ./stereo_parameters_back.yaml
+fi
+
