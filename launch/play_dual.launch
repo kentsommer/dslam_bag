@@ -8,6 +8,7 @@
   <arg name="bag_rate" default="$(optenv DSLAM_BAG_RATE 1)"/>
   <arg name="stereo_parameters_file_front" default="$(optenv DSLAM_STEREO_PARAMETERS_FILE_FRONT stereo_parameters_front.yaml)"/>
   <arg name="stereo_parameters_file_back"  default="$(optenv DSLAM_STEREO_PARAMETERS_FILE_BACK stereo_parameters_back.yaml)"/>
+  <arg name="bag_start_time" default="0"/>
 
   <!-- Until we have the bag itself playing these files -->
   <group ns="dslam/camera/front/stereo_parameters">
@@ -28,7 +29,7 @@
   </group>
   <group unless="$(arg use_rqt_bag)">
     <node pkg="rosbag" type="play" name="rosbag"
-        args="--rate=$(arg bag_rate) --clock --loop --pause $(arg bag_file)"/>
+        args="--rate=$(arg bag_rate) --clock --loop --pause $(arg bag_file) --start=$(arg bag_start_time)"/>
   </group>      
   <group if="$(arg use_rviz)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find dslam_bag)/rviz/dslam.rviz"/>

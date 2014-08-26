@@ -3,12 +3,14 @@
   <arg name="use_rqt_bag" default="false" doc="utilise rqt bag instead of rosbag"/>
   <arg name="use_rviz" default="false" doc="launch rviz showing odometry, transform and images (or not)"/>
   <arg name="bag_rate" default="$(optenv DSLAM_BAG_RATE 1)" doc="set the replay speed"/>
+  <arg name="bag_start_time" default="20"/>
 
   <include file="$(find dslam_bag)/launch/play_dual.launch">
     <arg name="bag_rate" value="$(arg bag_rate)"/>
     <arg name="use_rqt_bag" value="$(arg use_rqt_bag)"/>
     <arg name="use_rviz" value="$(arg use_rviz)"/>
     <arg name="bag_file" value="$(find dslam_bag)/bags/namsung/namsung.bag" />
+    <arg name="bag_start_time" value="$(arg bag_start_time)"/>
     <arg name="stereo_parameters_file_front" value="$(find dslam_bag)/bags/namsung/stereo_parameters_front.yaml" />
     <arg name="stereo_parameters_file_back" value="$(find dslam_bag)/bags/namsung/stereo_parameters_back.yaml" />
   </include>
