@@ -3,7 +3,7 @@
   <arg name="use_rqt_bag" default="false" doc="utilise rqt bag instead of rosbag"/>
   <arg name="use_rviz" default="false" doc="launch rviz showing odometry, transform and images (or not)"/>
   <arg name="bag_rate" default="$(optenv DSLAM_BAG_RATE 1)" doc="set the replay speed"/>
-  <arg name="bag_start_time" default="20"/>
+  <arg name="bag_start_time" default="10"/>
 
   <include file="$(find dslam_bag)/launch/play_dual.launch">
     <arg name="bag_rate" value="$(arg bag_rate)"/>
